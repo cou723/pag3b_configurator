@@ -1,4 +1,4 @@
-import { MeasureParam } from "../domain/entity/measure-param.entity.ts";
+import { MeasureParam } from "../domain/entity/measure-param.ts";
 import { MyMeasureRepository } from "../domain/repository/my-measure.ts";
 
 export class MyMeasureRepositoryLive implements MyMeasureRepository {

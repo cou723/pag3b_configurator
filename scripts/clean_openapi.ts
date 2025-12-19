@@ -1,10 +1,10 @@
-
 const officialFilePath = "openapi_official.json";
 const cleanedFilePath = "openapi_cleaned.json";
 
 const openapi = JSON.parse(await Deno.readTextFile(officialFilePath));
 
 // Recursive function to traverse and clean the schema
+// deno-lint-ignore no-explicit-any
 function cleanSchema(schema: any) {
   if (!schema || typeof schema !== "object") return;
 
@@ -19,8 +19,9 @@ function cleanSchema(schema: any) {
 
   // allOf の中も同様に探索
   if (schema.allOf && Array.isArray(schema.allOf)) {
+    // deno-lint-ignore no-explicit-any
     schema.allOf.forEach((subSchema: any) => {
-        cleanSchema(subSchema); // allOf内のスキーマも再帰的にクリーンアップ
+      cleanSchema(subSchema); // allOf内のスキーマも再帰的にクリーンアップ
     });
   }
 }

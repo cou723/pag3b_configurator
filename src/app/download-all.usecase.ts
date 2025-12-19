@@ -2,18 +2,11 @@
     aist平均値における平均値、男性の平均値、女性の平均値、最大値、最小値、設定値をダウンロードする
  */
 
-import {
-  ParameterConverter,
-  Sex,
-  Stat,
-} from "../domain/service/parameter-converter.ts";
+import { ParameterConverter } from "../domain/service/parameter-converter.ts";
 import { AistTableRepository } from "../domain/repository/aist-table.ts";
 import { FileWriter } from "../domain/repository/file.ts";
 import { MyMeasureRepository } from "../domain/repository/my-measure.ts";
-import {
-  OnshapeParameters,
-  OnshapeRepository,
-} from "../domain/repository/onshape.ts";
+import { OnshapeRepository } from "../domain/repository/onshape.ts";
 
 export async function downloadAll(
   aistDataRepo: AistTableRepository,

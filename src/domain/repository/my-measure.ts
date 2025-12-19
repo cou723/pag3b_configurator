@@ -1,4 +1,4 @@
-import { MeasureParam } from "../entity/measure-param.entity.ts";
+import { MeasureParam } from "../entity/measure-param.ts";
 
 export interface MyMeasureRepository {
   get(): MeasureParam;

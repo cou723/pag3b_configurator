@@ -1,5 +1,5 @@
-import { MeasureParam } from "../entity/measure-param.entity.ts";
-import { MilliMeter } from "../entity/milimater.entity.ts";
+import { MeasureParam } from "../entity/measure-param.ts";
+import { MilliMeter } from "../entity/millimeter.ts";
 import { AistTable } from "../repository/aist-table.ts";
 import { OnshapeParameters } from "../repository/onshape.ts";
 
@@ -14,16 +14,16 @@ export class ParameterConverter {
    */
   toOnshapeParams(measure: MeasureParam): OnshapeParameters {
     return {
-      L03: MilliMeter(measure.perFinger.thumb.wristToMcpMm),
-      L04: MilliMeter(measure.wristToStartHeightsMm.indexMm),
-      L05: MilliMeter(measure.perFinger.middle.wristToMcpMm),
-      L06: MilliMeter(measure.wristToStartHeightsMm.ringMm),
-      L07: MilliMeter(measure.wristToStartHeightsMm.littleMm),
-      L14: MilliMeter(measure.perFinger.thumb.mcpToTipMm),
-      L15: MilliMeter(measure.perFinger.index.mcpToTipMm),
-      L16: MilliMeter(measure.perFinger.middle.mcpToTipMm),
-      L17: MilliMeter(measure.perFinger.ring.mcpToTipMm),
-      L18: MilliMeter(measure.perFinger.little.mcpToTipMm),
+      thumb_palm_length: MilliMeter(measure.perFinger.thumb.wristToMcpMm),
+      index_palm_length: MilliMeter(measure.wristToStartHeightsMm.indexMm),
+      middle_palm_length: MilliMeter(measure.perFinger.middle.wristToMcpMm),
+      ring_palm_length: MilliMeter(measure.wristToStartHeightsMm.ringMm),
+      little_palm_length: MilliMeter(measure.wristToStartHeightsMm.littleMm),
+      thumb_finger_length: MilliMeter(measure.perFinger.thumb.mcpToTipMm),
+      index_finger_length: MilliMeter(measure.perFinger.index.mcpToTipMm),
+      middle_finger_length: MilliMeter(measure.perFinger.middle.mcpToTipMm),
+      ring_finger_length: MilliMeter(measure.perFinger.ring.mcpToTipMm),
+      little_finger_length: MilliMeter(measure.perFinger.little.mcpToTipMm),
       index_to_middle: MilliMeter(measure.mpJointSpacingMm.indexToMiddleMm),
       middle_to_ring: MilliMeter(measure.mpJointSpacingMm.middleToRingMm),
       ring_to_little: MilliMeter(measure.mpJointSpacingMm.ringToLittleMm),
@@ -97,16 +97,16 @@ export class ParameterConverter {
     };
 
     return {
-      L03: MilliMeter(scaled.L03),
-      L04: MilliMeter(scaled.L04),
-      L05: MilliMeter(scaled.L05),
-      L06: MilliMeter(scaled.L06),
-      L07: MilliMeter(scaled.L07),
-      L14: MilliMeter(scaled.L14),
-      L15: MilliMeter(scaled.L15),
-      L16: MilliMeter(scaled.L16),
-      L17: MilliMeter(scaled.L17),
-      L18: MilliMeter(scaled.L18),
+      thumb_palm_length: MilliMeter(scaled.L03),
+      index_palm_length: MilliMeter(scaled.L04),
+      middle_palm_length: MilliMeter(scaled.L05),
+      ring_palm_length: MilliMeter(scaled.L06),
+      little_palm_length: MilliMeter(scaled.L07),
+      thumb_finger_length: MilliMeter(scaled.L14),
+      index_finger_length: MilliMeter(scaled.L15),
+      middle_finger_length: MilliMeter(scaled.L16),
+      ring_finger_length: MilliMeter(scaled.L17),
+      little_finger_length: MilliMeter(scaled.L18),
       index_to_middle: MilliMeter(fingerSpacing.index_to_middle),
       middle_to_ring: MilliMeter(fingerSpacing.middle_to_ring),
       ring_to_little: MilliMeter(fingerSpacing.ring_to_little),
