@@ -1,0 +1,16 @@
+{
+  "cSpell.words": [
+    "aist",
+    "configurationencodings",
+    "keypitch",
+    "keytop",
+    "Onshape",
+    "partid",
+    "partstudios",
+    "topplate",
+    "wvid",
+    "wvmid"
+  ],
+  "deno.enable": true,
+  "deno.lint": true
+}
