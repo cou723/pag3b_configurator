@@ -1,6 +1,9 @@
 import { downloadAll } from "./src/app/download-all.usecase.ts";
 import { downloadCurrentValue } from "./src/app/download-save-current-value.usecase.ts";
+import { downloadMatrix } from "./src/app/download-matrix.usecase.ts";
+import { downloadMatrixSingle } from "./src/app/download-matrix-single.usecase.ts";
 import { update } from "./src/app/update.usecase.ts";
+import type { MatrixLevel } from "./src/domain/service/matrix-generator.ts";
 import { AistDataRepositoryLive } from "./src/infrastructure/aist-data.ts";
 import { writeFileLive } from "./src/infrastructure/file.ts";
 import { MyMeasureRepositoryLive } from "./src/infrastructure/my-measure.ts";
@@ -22,7 +25,7 @@ const command = Deno.args[0];
 
 if (!command) {
   console.error(
-    "Please provide a command: download-all, download-current, update",
+    "Please provide a command: download-all, download-current, download-matrix, download-matrix-single, update",
   );
   Deno.exit(1);
 }
@@ -41,7 +44,16 @@ try {
       console.log("Download current value completed.");
       break;
     }
-    case "update": {
+    case "download-matrix": {
+      const aistRepo = new AistDataRepositoryLive();
+      const myMeasureRepo = new MyMeasureRepositoryLive();
+      const converter = new ParameterConverter();
+      const myParams = converter.toOnshapeParams(myMeasureRepo.get());
+      await downloadMatrix(aistRepo, myParams, fileWriter, onshapeRepo);
+      console.log("Download matrix completed.");
+      break;
+    }
+    case "update-mine": {
       const myMeasureRepo = new MyMeasureRepositoryLive();
       const converter = new ParameterConverter();
       const myParams = converter.toOnshapeParams(myMeasureRepo.get());
@@ -49,9 +61,58 @@ try {
       console.log("Update completed with MyMeasure params.");
       break;
     }
+    case "download-matrix-single": {
+      // 引数バリデーション
+      if (Deno.args.length < 3) {
+        console.error(
+          "Usage: download-matrix-single <lengthLevel> <widthLevel>",
+        );
+        console.error("  lengthLevel: 1-4");
+        console.error("  widthLevel: 1-4");
+        Deno.exit(1);
+      }
+
+      const lengthLevel = parseInt(Deno.args[1], 10);
+      const widthLevel = parseInt(Deno.args[2], 10);
+
+      // 値の範囲チェック
+      if (
+        !Number.isInteger(lengthLevel) ||
+        !Number.isInteger(widthLevel) ||
+        lengthLevel < 1 || lengthLevel > 8 ||
+        widthLevel < 1 || widthLevel > 8
+      ) {
+        console.error(
+          "Error: lengthLevel and widthLevel must be integers between 1 and 4",
+        );
+        console.error(
+          `  Provided: lengthLevel=${Deno.args[1]}, widthLevel=${Deno.args[2]}`,
+        );
+        Deno.exit(1);
+      }
+
+      const aistRepo = new AistDataRepositoryLive();
+      const myMeasureRepo = new MyMeasureRepositoryLive();
+      const converter = new ParameterConverter();
+      const myParams = converter.toOnshapeParams(myMeasureRepo.get());
+
+      await downloadMatrixSingle(
+        aistRepo,
+        myParams,
+        lengthLevel as MatrixLevel,
+        widthLevel as MatrixLevel,
+        fileWriter,
+        onshapeRepo,
+      );
+
+      console.log(
+        `Download matrix single completed: length_${lengthLevel}_width_${widthLevel}.stl generated.`,
+      );
+      break;
+    }
     default: {
       console.error(
-        `Unknown command: ${command}. Available: download-all, download-current, update`,
+        `Unknown command: ${command}. Available: download-all, download-current, download-matrix, download-matrix-single, update`,
       );
       Deno.exit(1);
     }

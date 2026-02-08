@@ -3,7 +3,9 @@
     "dev": "deno run --allow-read --allow-write --allow-net main.ts",
     "download-all": "deno run --allow-read --allow-write --allow-net main.ts download-all",
     "download-current": "deno run --allow-read --allow-write --allow-net main.ts download-current",
-    "update": "deno run --allow-read --allow-write --allow-net main.ts update",
+    "download-matrix": "deno run --allow-read --allow-write --allow-net main.ts download-matrix",
+    "download-matrix-single": "deno run --allow-read --allow-write --allow-net main.ts download-matrix-single",
+    "update-mine": "deno run --allow-read --allow-write --allow-net main.ts update-mine",
     "regenerate-client": "curl -o openapi_official.json https://cad.onshape.com/api/openapi && deno run --allow-read --allow-write scripts/clean_openapi.ts && deno run -A npm:openapi-typescript openapi_cleaned.json -o src/infrastructure/api.d.ts && rm openapi_official.json openapi_cleaned.json"
   },
   "imports": {

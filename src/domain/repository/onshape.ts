@@ -11,10 +11,10 @@ export type OnshapeParameters = {
   middle_finger_length: MilliMeter;
   ring_finger_length: MilliMeter;
   little_finger_length: MilliMeter;
-  index_to_middle: MilliMeter;
-  middle_to_ring: MilliMeter;
-  ring_to_little: MilliMeter;
-  little_start_to_thumb_start_mm: MilliMeter;
+  index_pip_thick: MilliMeter;
+  middle_pip_thick: MilliMeter;
+  ring_pip_thick: MilliMeter;
+  little_pip_thick: MilliMeter;
 };
 
 export interface OnshapeRepository {

@@ -10,8 +10,8 @@ export class OnshapeRepositoryLive implements OnshapeRepository {
   constructor(
     readonly accessKey: string,
     readonly secretKey: string,
-    readonly workspaceId: string,
     readonly documentId: string,
+    readonly workspaceId: string,
     readonly topPlateElementId: string,
     readonly globalVariablesElementId: string,
   ) {
@@ -59,6 +59,7 @@ export class OnshapeRepositoryLive implements OnshapeRepository {
     );
     if (!data) {
       if (error) {
+        console.error("Error fetching part metadata:", error);
         throw error;
       }
       throw new Error("No data received from Onshape API");
@@ -67,7 +68,7 @@ export class OnshapeRepositoryLive implements OnshapeRepository {
     // onshapeの公開しているopenapiの型定義が不完全なためanyで受け取る
     // deno-lint-ignore no-explicit-any
     const topPlateId = (data as unknown as any[])!.find((part) =>
-      part.name === "TopPlate"
+      part.name === "Part 1"
     )?.partId;
 
     const urlResponse = await this.client.GET(
