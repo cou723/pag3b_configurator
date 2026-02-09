@@ -1,7 +1,7 @@
 ---
 name: debugger
 description: "MUST BE USED when investigating bugs, test failures, or unexpected behavior. Use proactively when code review finds issues or tests fail to identify root causes and suggest fixes."
-tools: Read, Glob, Grep, Bash
+tools: Read, Glob, Grep, Bash, Write
 model: sonnet
 ---
 

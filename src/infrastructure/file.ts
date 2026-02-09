@@ -2,5 +2,6 @@ import { FileWriter } from "../domain/repository/file.ts";
 
 export const writeFileLive: FileWriter = async (path, stream) => {
   const file = await Deno.open(path, { write: true, create: true });
+  console.log(`Writing to file: ${path}`);
   await stream.pipeTo(file.writable);
 };

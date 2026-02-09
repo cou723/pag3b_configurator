@@ -1,4 +1,5 @@
 import { MilliMeter } from "../entity/millimeter.ts";
+import { SwitchConfiguration, SwitchPartName } from "../entity/switch-config.ts";
 
 export type OnshapeParameters = {
   thumb_palm_length: MilliMeter;
@@ -23,5 +24,16 @@ export interface OnshapeRepository {
   readonly topPlateElementId: string;
 
   set(params: OnshapeParameters): Promise<void>;
-  fetchStl(): Promise<ReadableStream<Uint8Array>>;
+  fetchStl(): Promise<ReadableStream<Uint8Array> | null>;
+  getKeyWidths(): Promise<Record<string, MilliMeter>>;
+}
+
+// スイッチ用の新しいインターフェース
+export interface SwitchRepository {
+  readonly workspaceId: string;
+  readonly documentId: string;
+  readonly elementId: string;
+
+  setSwitchConfiguration(config: SwitchConfiguration): Promise<void>;
+  fetchSwitchStl(partName: SwitchPartName): Promise<ReadableStream<Uint8Array> | null>;
 }

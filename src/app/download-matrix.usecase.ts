@@ -34,6 +34,10 @@ export async function downloadMatrix(
     await onshapeRepository.set(params);
     console.log("  ✓ Onshape parameters set");
     const stlData = await onshapeRepository.fetchStl();
+    if (!stlData) {
+      console.error(`  ✗ Failed to fetch STL for ${name}`);
+      continue;
+    }
     console.log("  ✓ STL data fetched");
     await fileWriter(`${name}.stl`, stlData);
 

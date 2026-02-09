@@ -2,12 +2,14 @@ import { downloadAll } from "./src/app/download-all.usecase.ts";
 import { downloadCurrentValue } from "./src/app/download-save-current-value.usecase.ts";
 import { downloadMatrix } from "./src/app/download-matrix.usecase.ts";
 import { downloadMatrixSingle } from "./src/app/download-matrix-single.usecase.ts";
+import { downloadSwitches } from "./src/app/download-switches.usecase.ts";
 import { update } from "./src/app/update.usecase.ts";
 import type { MatrixLevel } from "./src/domain/service/matrix-generator.ts";
 import { AistDataRepositoryLive } from "./src/infrastructure/aist-data.ts";
 import { writeFileLive } from "./src/infrastructure/file.ts";
 import { MyMeasureRepositoryLive } from "./src/infrastructure/my-measure.ts";
 import { OnshapeRepositoryLive } from "./src/infrastructure/onshape.ts";
+import { SwitchRepositoryLive } from "./src/infrastructure/switch-repository.ts";
 import { credentials } from "./credentials.ts";
 import { ParameterConverter } from "./src/domain/service/parameter-converter.ts";
 
@@ -19,13 +21,22 @@ const onshapeRepo = new OnshapeRepositoryLive(
   "486ec8569cd27b2d34eed21a",
   "3b3cb69da9e6944e977c27f4",
 );
+
+const switchRepo = new SwitchRepositoryLive(
+  credentials.accessKey,
+  credentials.secretKey,
+  "15b0b06437e22a73f90f177f",
+  "3bb5d50dedb32a79834f3276",
+  "3c7a70fd450bbaa7b9c95808",
+);
+
 const fileWriter = writeFileLive;
 
 const command = Deno.args[0];
 
 if (!command) {
   console.error(
-    "Please provide a command: download-all, download-current, download-matrix, download-matrix-single, update",
+    "Please provide a command: download-all, download-current, download-matrix, download-matrix-single, download-switches, update",
   );
   Deno.exit(1);
 }
@@ -110,9 +121,17 @@ try {
       );
       break;
     }
+    case "download-switches": {
+      const myMeasureRepo = new MyMeasureRepositoryLive();
+      const converter = new ParameterConverter();
+      const myParams = converter.toOnshapeParams(myMeasureRepo.get());
+      await downloadSwitches(onshapeRepo, switchRepo, fileWriter, myParams);
+      console.log("Download switches completed.");
+      break;
+    }
     default: {
       console.error(
-        `Unknown command: ${command}. Available: download-all, download-current, download-matrix, download-matrix-single, update`,
+        `Unknown command: ${command}. Available: download-all, download-current, download-matrix, download-matrix-single, download-switches, update`,
       );
       Deno.exit(1);
     }

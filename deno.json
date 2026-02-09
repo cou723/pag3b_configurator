@@ -5,12 +5,16 @@
     "download-current": "deno run --allow-read --allow-write --allow-net main.ts download-current",
     "download-matrix": "deno run --allow-read --allow-write --allow-net main.ts download-matrix",
     "download-matrix-single": "deno run --allow-read --allow-write --allow-net main.ts download-matrix-single",
+    "download-switches": "deno run --allow-read --allow-write --allow-net main.ts download-switches",
     "update-mine": "deno run --allow-read --allow-write --allow-net main.ts update-mine",
     "regenerate-client": "curl -o openapi_official.json https://cad.onshape.com/api/openapi && deno run --allow-read --allow-write scripts/clean_openapi.ts && deno run -A npm:openapi-typescript openapi_cleaned.json -o src/infrastructure/api.d.ts && rm openapi_official.json openapi_cleaned.json"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
     "@std/csv": "jsr:@std/csv@^1.0.6",
-    "openapi-fetch": "npm:openapi-fetch@^0.15.0"
+    "openapi-fetch": "npm:openapi-fetch@^0.16.0"
+  },
+  "compilerOptions": {
+    "lib": ["deno.window"]
   }
 }

@@ -21,7 +21,12 @@ export async function downloadAll(
   // 1. Download Mine
   console.log("Processing: Mine");
   await onshapeRepository.set(myParams);
-  await fileWriter("mine.stl", await onshapeRepository.fetchStl());
+  const mineStl = await onshapeRepository.fetchStl();
+  if (mineStl) {
+    await fileWriter("mine.stl", mineStl);
+  } else {
+    console.error("Failed to fetch STL for mine");
+  }
 
   // AIST Data Processing
   const aistData = { ...aistDataRepo.tables, mine: aistDataRepo.myTable };
@@ -30,6 +35,11 @@ export async function downloadAll(
     console.log(`Processing: ${key}`);
     const params = converter.fromAistTable(value, myParams);
     await onshapeRepository.set(params);
-    await fileWriter(`${key}.stl`, await onshapeRepository.fetchStl());
+    const stlData = await onshapeRepository.fetchStl();
+    if (stlData) {
+      await fileWriter(`${key}.stl`, stlData);
+    } else {
+      console.error(`Failed to fetch STL for ${key}`);
+    }
   }
 }

@@ -5,5 +5,10 @@ export async function downloadCurrentValue(
   fileWriter: FileWriter,
   onshapeRepository: OnshapeRepository,
 ) {
-  await fileWriter("current_value.stl", await onshapeRepository.fetchStl());
+  const stlData = await onshapeRepository.fetchStl();
+  if (!stlData) {
+    console.error("Failed to fetch STL data for current value");
+    return;
+  }
+  await fileWriter("current_value.stl", stlData);
 }
